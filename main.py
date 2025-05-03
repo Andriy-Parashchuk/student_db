@@ -7,6 +7,8 @@ def init_db():
         cursor.executescript('''
         DROP TABLE IF EXISTS students;
         DROP TABLE IF EXISTS courses;    
+        DROP TABLE IF EXISTS students_courses;
+        PRAGMA foreign_keys = ON;
         
         CREATE TABLE students(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,6 +22,17 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name VARCHAR(100)
         );
+        
+        CREATE TABLE students_courses(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            course_id INTEGER,
+            
+            FOREIGN KEY (student_id) REFERENCES students(id),
+            FOREIGN KEY (course_id) REFERENCES courses(id)
+        );
+        
+        
         
         ''')
         connection.commit()
